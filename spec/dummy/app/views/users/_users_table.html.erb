@@ -1,0 +1,27 @@
+<%
+
+  fields = [:name, :email, :articles_count]
+
+  # show =
+  # edit = "Edit"
+  # delete = "Delete"
+  begin;
+    Angel::Components::TableComponent.new(records:users,fields:fields, responsive:"md",optional_fields:[:client_name, :edit, :delete], show:"View", edit:"Edit",delete:"Delete");
+  rescue TypeError => e;
+    puts e;
+  end
+  users_table = Angel::Components::TableComponent.new(records:users,fields:fields, responsive:"md",optional_fields:[:client_name, :edit, :delete], show:"View", edit:"Edit",delete:"Delete")
+%>
+
+<%= render(users_table) do |component| %>
+  <% component.with_header do %>
+      <%= component.table_header %>
+    <% end %>
+
+  <% component.with_placeholder do %>
+    There are no users yet.
+  <% end %>
+<% end %>
+<% if(@paginated) %>
+<%= users_table.page_select(path_root:orders_path) %>
+<% end %>

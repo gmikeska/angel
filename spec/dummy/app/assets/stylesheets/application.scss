@@ -1,0 +1,279 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+body {
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+html {
+	margin: 0;
+	padding: 0;
+	background-color: darkgray;
+}
+a {
+	&:hover {
+		color: inherit;
+		background-color: inherit;
+	}
+	&:visited {
+		color: inherit;
+		background-color: inherit;
+	}
+}
+.clear-float {
+	float: both;
+}
+#pgContent {
+	min-height: 300px;
+}
+.indicator-online {
+  background-color:green;
+  color:"white";
+  border:1px solid gray;
+  border-radius:15px;
+  width:15px;
+  box-shadow:-4px 4px 4px rgba(83,235,5,0.68), 4px 4px 4px rgba(83,235,5,0.68), 4px -4px 4px rgba(83,235,5,0.68), -4px -4px 4px rgba(83,235,5,0.68);
+}
+.indicator {
+  background-color:darkgreen;
+  color:"white";
+  border:1px solid gray;
+  border-radius:15px;
+  width:15px;
+  // box-shadow:-4px 4px 4px rgba(83,235,5,0.68), 4px 4px 4px rgba(83,235,5,0.68), 4px -4px 4px rgba(83,235,5,0.68), -4px -4px 4px rgba(83,235,5,0.68);
+}
+.alert {
+	z-index: 0;
+}
+.bg-primary, .btn-primary, .primary {
+    background-color: #e7673e;
+    border-color: #e7673e;
+}
+.btn-primary:hover,.btn-pimary:active {
+	background-color: #e7673e;
+	border-color: #e7673e;
+
+}
+// .btn:hover {
+//   animation: rubberBand 0.8s;
+// }
+
+// @keyframes rubberBand {
+//   from {
+//     transform: scale3d(1, 1, 1);
+//   }
+//
+//   30% {
+//     transform: scale3d(1.25, 0.75, 1);
+//   }
+//   40% {
+//     transform: scale3d(0.75, 1.25, 1);
+//   }
+//   50% {
+//     transform: scale3d(1.15, 0.85, 1);
+//   }
+//   65% {
+//     transform: scale3d(0.95, 1.05, 1);
+//   }
+//   75% {
+//     transform: scale3d(1.05, 0.95, 1);
+//   }
+//   to {
+//     transform: scale3d(1, 1, 1);
+//   }
+// }
+.footer {
+	width: 100%;
+	margin-top: 20%;
+	background-color: darkgray;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	p {
+		margin-top: 20px;
+	}
+}
+.toast {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+}
+.header {
+	position: relative;
+	width: 100%;
+	background-color: #e7673e;
+	color: #000000;
+	padding-bottom: 1%;
+}
+.site-title {
+	margin-top: 9%;
+	a.site-text-logo {
+		text-decoration: none;
+		margin: 0px;
+		line-height: 1;
+		font-family: "Raleway", Helvetica, Arial, sans-serif;
+		font-size: 23px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		color: #000000;
+		display: initial;
+		vertical-align: middle;
+		font-weight: 600;
+	}
+}
+.site-logo-div {
+	display: block;
+}
+.pagination {
+		margin: 10px auto;
+		.page-nav{
+			min-width: 64px;
+		}
+		#page-prev{
+			min-width: 64px;
+		}
+		#page-next{
+			min-width: 64px;
+		}
+}
+.pagination li {
+		margin-right: 2%;
+}
+span.page-item.active {
+		font-weight: bold;
+}
+.page-item.active .page-link {
+	color: #fff;
+  background-color: #e7673e;
+  border-color: #e7673e;
+}
+.page-link {
+	color: #e7673e;
+}
+.page-link:visited {
+	color: #e7673e;
+}
+#mainNav {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 0px;
+	height: 36px;
+	z-index: 1;
+	background-color: rgb(153,153,153);
+	background: linear-gradient(0deg, rgba(153,153,153,1) 0%, rgba(238,238,238,1) 40%, rgba(255,255,255,1) 60%, rgba(153,153,153,1) 100%);
+	ul {
+		margin-left: 2%;
+		margin-right: auto !important;
+	}
+}
+#mainNavContent.collapsing {
+	background: linear-gradient(0deg, rgba(153,153,153,1) 0%, rgba(238,238,238,1) 40%, rgba(255,255,255,1) 60%, rgba(153,153,153,1) 100%);
+}
+#mainNavContent {
+	background: linear-gradient(0deg, rgba(153,153,153,1) 0%, rgba(238,238,238,1) 40%, rgba(255,255,255,1) 60%, rgba(153,153,153,1) 100%);
+}
+.nav-right {
+	margin-right: 2%;
+}
+.navbar-toggler {
+	margin-left: 2%;
+	padding: 0px;
+	&:focus {
+		text-decoration: none;
+		outline: 0;
+		box-shadow: 0 0 0 0.05rem;
+	}
+}
+.navbar-light {
+	.navbar-nav {
+		.nav-link {
+			font-size: large;
+			color: black;
+			&:focus {
+				background-color: #e7673e;
+				color: white;
+				font-weight: bold;
+			}
+			&:hover {
+				background-color: #e7673e;
+				color: white;
+				font-weight: bold;
+			}
+		}
+	}
+}
+ul.navbar-nav {
+	li {
+		border-left: none;
+		border-right: 1px solid black;
+		&:first-child {
+			border-right: 1px solid black;
+		}
+	}
+}
+.btn-toolbar {
+	margin-top: 10px;
+	padding: 10px;
+	margin-bottom: 10px;
+	width: 100%;
+	background: linear-gradient(0deg, rgba(198,149,2,0.3) 0%, rgba(255,255,255,1) 50%, rgba(198,149,2,0.3) 100%);
+	border-bottom-width: thick!important;
+	.btn {
+		margin-right: 14px;
+	}
+}
+a.btn {
+	color: #FFFFFF;
+	&:visited {
+		color: #FFFFFF;
+	}
+}
+.toolbar {
+	a {
+		margin-right: 8px;
+	}
+}
+.navbar-collapse {
+	.welcome-text {
+		display: initial;
+	}
+	&:not(.show) {
+		hr {
+			display: none;
+		}
+	}
+}
+.navbar-collapse.show {
+	.welcome-text {
+		display: none;
+	}
+	.login-logout-link {
+		a {
+			font-size: large;
+			color: black;
+			margin-left: 2%;
+			text-decoration: none;
+		}
+	}
+}
+.link-row {
+	position: relative;
+	&:hover {
+		background-color: #8b8b8b;
+		color: white;
+	}
+}

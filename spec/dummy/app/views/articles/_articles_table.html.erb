@@ -1,0 +1,23 @@
+<%
+
+  fields = [:title, :author_name, :body]
+
+  show = "View"
+  edit = "Edit"
+  delete = "Delete"
+
+
+  articles_table = Angel::Components::TableComponent.new(records:articles,fields:fields, responsive:"md",optional_fields:[:client_name, :edit, :delete], show:show, edit:edit,delete:delete) %>
+  <%= render(articles_table) do |component| %>
+  <% component.with_header do %>
+      <%= component.table_header %>
+  <% end %>
+
+  <% component.with_placeholder do %>
+    There are no articles yet.
+  <% end %>
+<% end %>
+
+<% if(@paginated) %>
+<%= articles_table.page_select(path_root:orders_path) %>
+<% end %>

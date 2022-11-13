@@ -1,0 +1,24 @@
+<% if(!!@responsive) %>
+  <turbo-frame id="<%= css_id %>" class='<%= @responsive %>'>
+  <% end %>
+  <table class="<%= css_class %>">
+  <% if(header.present?) %>
+    <%= header %>
+  <% else %>
+    <%= table_header %>
+  <% end %>
+  <tbody>
+    <% if(body.present?)
+       %><%= body %><%
+      elsif(@records.present?)
+        @records.each do |record| %>
+        <%= render Angel::Components::RecordComponent.new(record:record,fields:self.fields, optional_fields:self.optional_fields, show:self.show, edit:self.edit, delete:self.delete)  %>
+      <% end %>
+    <% else %>
+      <tr><td style="text-align: center; vertical-align: middle;" colspan=<%= colspan %>><%= placeholder %></td></tr>
+    <% end %>
+  </tbody>
+</table>
+<% if(!!@responsive) %>
+  </turbo-frame>
+<% end %>

@@ -1,0 +1,10 @@
+Description:
+    Explain the generator
+
+Example:
+    bin/rails generate angel:install
+
+    This will create:
+        - rails migrations, models, and controllers for designs, groups, and pages
+        - proxy components for builtin components (TableComponent, RecordComponent, SiteNavComponent)
+        - Resources for pages>groups>designs, groups>designs, and designs.

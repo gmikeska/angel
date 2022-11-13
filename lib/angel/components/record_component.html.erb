@@ -1,0 +1,84 @@
+<% if(@fields.nil?)
+  @fields = @record.class.columns.collect{|c| c.name.to_sym}
+end %>
+<% if(@stretch_record_link)
+  if(!!@optional_fields && @optional_fields.include?(@fields.first))
+     @link_index = @link_index+1
+  end %>
+    <tr class='link-row position-relative' data-id='<%= @record[:id] %>'>
+<% else %>
+    <tr data-id='<%= @record[:id] %>'>
+<% end %>
+  <% @fields.each_with_index do |fieldName,i|
+      if(!!@optional_fields && @optional_fields.include?(fieldName))
+        class_string = "class='d-none d-md-table-cell'"
+      else
+        class_string = ""
+      end
+
+      if(@stretch_record_link && i == @link_index) %>
+        <%= render_link_cell_for(fieldName, class_string) %>
+  <%  else %>
+        <%= render_cell_for(fieldName, class_string) %>
+  <%  end
+
+  %>
+
+
+
+  <% end %>
+  <% if(@show.present? && @show == true) %>
+    <td><%=  view_button(@record) %></td>
+  <% elsif(@show.present? && @show.class == String) %>
+    <td><%=  view_button(@record, content:@show) %></td>
+  <% elsif(@show.present? && @show.class == Symbol) %>
+    <% if(@record.respond_to? @show) %>
+      <td><%=  view_button(@record.send(@show)) %></td>
+    <% elsif(@show.to_s.include? "_" ) %>
+    <% methods = @show.to_s.split("_"); cursor = @record
+       methods.each do |m|
+       cursor = cursor.send(m)
+       end %>
+       <td><%=  view_button(@record.send(cursor)) %></td>
+    <% end %>
+  <% end %>
+
+  <% if(!!@edit) %>
+    <% if(@edit == true)
+      @edit =  edit_button(edit_polymorphic_path(@record), class: 'btn btn-sm btn-secondary')
+   elsif(@edit.present? && @edit.class == String)
+      @edit =  edit_button(@record, content:@edit)
+   elsif(@edit.present? && @edit.class == Symbol)
+     if(@record.respond_to? @edit)
+      @edit =  edit_button(@record.send(@edit))
+     elsif(@edit.to_s.include? "_" )
+       methods = @edit.to_s.split("_"); cursor = @record
+         methods.each do |m|
+         cursor = cursor.send(m)
+         end
+         @edit =  edit_button(@record.send(cursor))
+     end
+   end
+   class_string = @optional_fields.include?(:edit) ? "class='d-none d-md-table-cell'" :"" %>
+   <%= render_cell_for(@edit,class_string) %>
+   <% end %>
+<% if(!!@delete) %>
+  <% if(@delete == true)
+      @delete =  delete_button(polymorphic_path(@record))
+   elsif(@delete.present? && @delete.class == String)
+      @delete =  delete_button(@record, content:@delete)
+   elsif(@delete.present? && @delete.class == Symbol)
+     if(@record.respond_to? @delete)
+      @delete =  delete_button(@record.send(@delete))
+     elsif(@delete.to_s.include? "_" )
+       methods = @delete.to_s.split("_"); cursor = @record
+         methods.each do |m|
+         cursor = cursor.send(m)
+         end
+         @delete =  delete_button(@record.send(cursor))
+     end
+   end
+   class_string = @optional_fields.include?(:delete) ? "class='d-none d-md-table-cell'" :"" %>
+   <%= render_cell_for(@delete,"class='d-none d-md-table-cell'") %>
+ <% end %>
+</tr>
