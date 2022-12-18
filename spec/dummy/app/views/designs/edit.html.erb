@@ -1,0 +1,12 @@
+<h1><%= @design.name.titleize %> in <%= @design.page.controller.pluralize.titleize %> <%= @design.page.action.titleize %></h1>
+
+<div class="container">
+  <small class="text-muted">preview</small>
+  <%= @design.loader({}) %>
+</div>
+
+<div class="container">
+  <div class="container">
+    <%= render("form", design:@design) %>
+  </div>
+</div>

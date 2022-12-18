@@ -1,0 +1,36 @@
+<turbo-frame id="<%= css_id %>" class='<%= css_class %>'>
+<%= self.settings_button(icon: :vertical).html_safe %>
+  <table class="<%= css_class %>">
+    <div id="<%= css_id %>SearchBar">
+      <div id="<%= css_id %>Query" class="row" <%= data_target("filterList") %> >
+
+      </div>
+      <div id="<%= css_id %>QueryInput" class="row">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="<%= css_id %>QueryParam">
+            <select multiple class="form-control" id="<%= css_id %>QueryParamSelect" <%= data_target("filterTypeSelect") %> >
+              <%= self.options_for_filter %>
+            </select>
+          </span>
+        </div>
+        <input type="text" <%= data_target("filterInput") %> class="form-control" id="exampleFormControlInput1" placeholder="search">
+      </div>
+    </div>
+  <% if(header.present?) %>
+    <%= header %>
+  <% else %>
+    <%= table_header %>
+  <% end %>
+    <tbody>
+      <% if(body.present?)
+         %><%= body %><%
+       elsif(self.records.present?)
+          self.records.each do |record| %>
+          <%= render Angel::Components::RecordComponent.new(record:record,fields:self.fields, optional_fields:self.optional_fields, show:self.show, edit:self.edit, delete:self.delete)  %>
+        <% end %>
+      <% else %>
+        <tr><td style="text-align: center; vertical-align: middle;" colspan=<%= colspan %>><%= placeholder %></td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</turbo-frame>

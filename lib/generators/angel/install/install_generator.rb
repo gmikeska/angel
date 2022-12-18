@@ -17,17 +17,14 @@ module Angel
       end
       def generate_migrations
         migration_template "migrations/create_designs.rb", "db/migrate/create_designs.rb"
-        migration_template "migrations/create_groups.rb", "db/migrate/create_groups.rb"
         migration_template "migrations/create_pages.rb", "db/migrate/create_pages.rb"
       end
       def generate_models
         template "models/design.rb", "app/models/design.rb"
-        template "models/group.rb", "app/models/group.rb"
         template "models/page.rb", "app/models/page.rb"
       end
       def generate_controllers
         template "controllers/designs_controller.rb", "app/controllers/designs_controller.rb"
-        template "controllers/groups_controller.rb", "app/controllers/groups_controller.rb"
         template "controllers/pages_controller.rb", "app/controllers/pages_controller.rb"
       end
       def generate_components

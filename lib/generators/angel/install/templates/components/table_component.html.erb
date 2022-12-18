@@ -1,7 +1,6 @@
-<% if(!!@responsive) %>
-  <div class='<%= @responsive %>'>
-  <% end %>
-  <table class="<%= @css_class %>">
+<turbo-frame id="<%= css_id %>" class='<%= @responsive %>'>
+<%= settings_button(icon: :vertical) %>
+<table class="<%= @css_class %>">
   <% if(header.present?) %>
     <%= header %>
   <% else %>
@@ -19,6 +18,4 @@
     <% end %>
   </tbody>
 </table>
-<% if(!!@responsive) %>
-  </div>
-<% end %>
+</turbo-frame>

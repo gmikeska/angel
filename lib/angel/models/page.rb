@@ -8,6 +8,19 @@ module Angel
       p.settings_data = {renders:[]} if(!p.settings_data)
     end
 
+    def add_design(design)
+      self.designs << design
+    end
+
+    def design_with_defaults(design_name, **args)
+      design = self.designs.find_by design_name
+      if(!design.persisted?)
+        design.options = args[:options]
+      end
+      design.save
+      return design.loader
+    end
+
     def action_settings_root
       if(self.action != nil)
         return Page.find_by(action:self.action, controller:nil)

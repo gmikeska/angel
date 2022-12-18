@@ -19,14 +19,17 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = spec.homepage + "/CHANGELOG.MD"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+    Dir['lib/**/*'] + %w[Rakefile README.md]
   end
+
   spec.require_paths = ["lib"]
 
 
-  spec.add_dependency "rails", ">= 7.0.4"
-  spec.add_dependency "view_component", "~> 2.75"
+  spec.add_dependency "view_component", "~> 2.74.1"
   spec.add_dependency "sass-rails"
+  spec.add_dependency "supports_pointer"
+  spec.add_dependency "bootstrap_form"
+  spec.add_dependency 'rails', '~> 7.0', '>= 7.0.4'
   spec.add_development_dependency "falcon"
   spec.add_development_dependency "better_errors"
   spec.add_development_dependency "binding_of_caller"

@@ -1,10 +1,59 @@
+GIT
+  remote: https://github.com/rspec/rspec-core.git
+  revision: 522b7727d02d9648c090b56fa68bbdc18a21c04d
+  branch: main
+  specs:
+    rspec-core (3.13.0.pre)
+      rspec-support (= 3.13.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-expectations.git
+  revision: ae06ba1535fca7c0ce4014d7d05fae823e6be9d4
+  branch: main
+  specs:
+    rspec-expectations (3.13.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.13.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-mocks.git
+  revision: f4f444c19b89a48855dec106461d440a5b418684
+  branch: main
+  specs:
+    rspec-mocks (3.13.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.13.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-rails.git
+  revision: c60ff7907559653cd9d1ec1a6113bf86c9359fab
+  branch: main
+  specs:
+    rspec-rails (6.1.0.pre)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (= 3.13.0.pre)
+      rspec-expectations (= 3.13.0.pre)
+      rspec-mocks (= 3.13.0.pre)
+      rspec-support (= 3.13.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-support.git
+  revision: e28c64aba9e625d8b153ec010f43b4ecb298b73b
+  branch: main
+  specs:
+    rspec-support (3.13.0.pre)
+
 PATH
   remote: .
   specs:
     angel (0.1.0)
-      rails (>= 7.0.4)
+      bootstrap_form
+      rails (~> 7.0, >= 7.0.4)
       sass-rails
-      view_component (~> 2.75)
+      supports_pointer
+      view_component (~> 2.74.1)
 
 GEM
   remote: https://rubygems.org/
@@ -101,16 +150,27 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
+    bootstrap_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
     build-environment (1.13.0)
     builder (3.2.4)
+    byebug (11.1.3)
     coderay (1.1.3)
     concurrent-ruby (1.1.10)
     console (1.16.2)
       fiber-local
     crass (1.0.6)
+    date (3.3.2)
     debug_inspector (1.1.0)
+    diff-lcs (1.5.0)
     erubi (1.11.0)
-    faker (2.21.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
+    faker (3.0.0)
       i18n (>= 1.8.11, < 2)
     falcon (0.42.3)
       async
@@ -139,26 +199,30 @@ GEM
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
     localhost (1.1.9)
-    loofah (2.19.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.7.1)
+    mail (2.8.0)
       mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
     mapping (1.1.1)
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.16.3)
-    net-imap (0.3.1)
+    net-imap (0.3.2)
+      date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.1.3)
+    net-protocol (0.2.1)
       timeout
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.8)
-    nokogiri (1.13.9-x86_64-linux)
+    nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     openssl (3.0.1)
     process-metrics (0.2.1)
@@ -177,7 +241,7 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    racc (1.6.0)
+    racc (1.6.1)
     rack (2.2.4)
     rack-test (2.0.2)
       rack (>= 1.3)
@@ -195,11 +259,15 @@ GEM
       activesupport (= 7.0.4)
       bundler (>= 1.15.0)
       railties (= 7.0.4)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.3)
-      loofah (~> 2.3)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     railties (7.0.4)
       actionpack (= 7.0.4)
       activesupport (= 7.0.4)
@@ -232,9 +300,11 @@ GEM
     sqlite3 (1.5.3-x86_64-linux)
     stimulus-rails (1.1.1)
       railties (>= 6.0.0)
+    supports_pointer (0.5.2)
+      rails (~> 7.0, >= 7.0.4)
     thor (1.2.1)
     tilt (2.0.11)
-    timeout (0.3.0)
+    timeout (0.3.1)
     timers (4.3.5)
     traces (0.8.0)
     turbo-rails (1.3.2)
@@ -243,7 +313,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    view_component (2.75.0)
+    view_component (2.74.1)
       activesupport (>= 5.0.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -259,12 +329,20 @@ DEPENDENCIES
   angel!
   better_errors
   binding_of_caller
+  byebug
+  factory_bot_rails
   faker
   falcon
   hotwire-rails
   importmap-rails
-  pry
+  pry (~> 0.14.1)
+  rails-controller-testing
   redis (~> 4.0)
+  rspec-core!
+  rspec-expectations!
+  rspec-mocks!
+  rspec-rails!
+  rspec-support!
   sqlite3
   turbo-rails
 

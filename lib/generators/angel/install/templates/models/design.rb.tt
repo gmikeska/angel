@@ -1,4 +1,43 @@
 class Design < Angel::Design
+  include SupportsPointer
 
+  if(!!ApplicationRecord && !!ApplicationRecord.pointers && ApplicationRecord.pointers.keys.include?(:model))
+    uses_pointer(:model, from:ApplicationRecord)
+  else
+    parses_pointer :model
+    pointer_resolution :model do |data|
+      data[:model_name].classify.constantize
+    end
+    pointer_generation :model do |model|
+      model.name
+    end
+  end
+
+  if(!!ApplicationRecord && !!ApplicationRecord.pointers && ApplicationRecord.pointers.keys.include?(:model_instance))
+    uses_pointer(:model_instance, from:ApplicationRecord)
+  else
+    parses_pointer :model_instance
+    pointer_resolution :model_instance do |data|
+      resolve_model_pointer(data[:model_name]).find(data[:param])
+    end
+    pointer_generation :model_instance do |model_instance|
+      if(!!model_instance.try(:slug))
+        "#{generate_model_pointer(model_instance.class)}:#{model_instance.slug}"
+      else
+        "#{generate_model_pointer(model_instance.class)}:#{model_instance.id}"
+      end
+    end
+  end
+  def self.to_pointer()
+    return self.generate_model_pointer(self)
+  end
+
+  def to_pointer(as_slug=false)
+    if(!!as_slug && !!self.slug)
+      return "#{self.class.to_pointer}:#{self.slug}"
+    else
+      return self.class.generate_model_instance_pointer(self)
+    end
+  end
 
 end

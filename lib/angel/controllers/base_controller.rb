@@ -10,17 +10,8 @@ module Angel
         @design = Design.find_by(**args)
       end
 
-      def set_group(id:nil)
-        id = params[:id] if(id.nil? && !!params[:id])
-        @group = Group.find(id)
-      end
-
       def current_page
         return @page
-      end
-
-      def current_group
-        return @group
       end
 
       def set_page

@@ -1,3 +1,5 @@
+require_relative "record_component"
+
 module Angel
   module Components
     class TableComponent < CustomizableComponent
@@ -5,7 +7,7 @@ module Angel
       renders_one :body
       renders_many :records, Angel::Components::RecordComponent
       renders_one :placeholder
-      attr_reader :fields, :optional_fields,:show,:edit,:delete, :records
+      attr_accessor :fields, :hidden_fields,:optional_fields,:show,:edit,:delete, :records
       # include TagHelper
       # include Rails.application.routes.named_routes.path_helpers_module
       # include Rails.application.routes.named_routes.url_helpers_module
@@ -13,6 +15,7 @@ module Angel
 
       def initialize(**args)
         @records = args[:records] || []
+        self.functional_classes = ["table", "table-sm"]
         if(!args[:css_id] && self.records.length > 0)
           args[:css_id] = self.records.first.class.name.downcase.pluralize+"-table"
         elsif(!args[:css_id] && self.records.length == 0)
@@ -20,9 +23,17 @@ module Angel
         end
         if(args[:fields].nil? && @records.present? && @records.count > 0)
           @fields = @records.first.class.columns.collect{|c| c.name.to_sym}
-        else
+        elsif(!args[:fields].nil?)
           @fields = args[:fields]
+        else
+          @fields = []
         end
+        if(args[:hidden_fields].nil? || args[:hidden_fields].none?)
+          @hidden_fields = []
+        else
+          @hidden_fields = args[:hidden_fields]
+        end
+
         if(!!args[:optional_fields])
           @optional_fields = args[:optional_fields]
         end
@@ -32,15 +43,9 @@ module Angel
         else
           @show = args[:show]
         end
+
         @edit = args[:edit]
         @delete = args[:delete]
-        if(!!args[:responsive] && args[:responsive] == true)
-          args[:css_class] = "table table-sm"
-          @responsive = "table-responsive"
-        elsif(!!args[:responsive] && args[:responsive].is_a?(String))
-          args[:css_class] = "table table-sm"
-          @responsive = "table-responsive-#{args[:responsive]}"
-        end
         if(!!args[:pagination_count] && args[:pagination_count] > 0)
           @pagination_count = args[:pagination_count]
           if(!!args[:page_number])
@@ -52,11 +57,11 @@ module Angel
         super(**args)
       end
       def loader(source)
-        return %Q(<turbo-frame src="#{source}" id="#{css_id}"></turbo-frame>).html_safe
+        return %Q(<turbo-frame src="#{source}" id="#{css_id}" class="loading"></turbo-frame>).html_safe
       end
       def table_header(**args)
         if(!args[:fields])
-          args[:fields] = @fields
+          args[:fields] = self.fields
         end
         if(!args[:show])
           args[:show] = @show
@@ -97,6 +102,7 @@ module Angel
       def paginated?
         return (!!@records && @records.length > 0 && (!!@pagination_count && @pagination_count > 0) && @records.length > @pagination_count)
       end
+
       def page_select(**opts, &block)
         if(paginated?)
 
@@ -221,8 +227,48 @@ module Angel
         end
         return length
       end
+
+      def fields
+        if(!!design && !!design.user_options && !!design.user_options[:hidden_fields])
+          hidden = design.user_options[:hidden_fields][:value].keys.select{|k| design.user_options[:hidden_fields][:value][k] == true }
+
+          return @fields - hidden.map{|name| name.match(/hide_(\w*)/)[1].to_sym}
+        else
+          return @fields
+        end
+      end
+
+      def editor_fields
+        data = super
+        # data[:fields] = {type:"Group(select)", choices:options_for_select(super.keys.map{|k| [k,k] })}
+        # data[:fields][:value] = self.fields
+        data[:hidden_fields] = {}
+        data[:hidden_fields] = {type:"Group(check_box)"}
+        data[:hidden_fields][:value] = self.fields.map{|k| ["hide_#{k}",false]}.to_h
+        data[:hidden_fields][:title] = "Field Visibility"
+        return data
+      end
+
+      def self.editor_fields
+        {
+          hidden_fields:{
+            type:"Array(Boolean)",
+            title:"Field Visibility",
+            list: :fields,
+            value: :fields_shown?
+        }
+      }
+      end
+
+      def self.defaults
+        hidden_fields_default = {}
+        hidden_fields_default[:list] = self.fields
+        hidden_fields_default[:value] = self.fields.map{|k| [k,false]}.to_h
+        super.merge({records:[],show:true,edit:true,delete:true, hidden_fields:hidden_fields_default})
+      end
+
       def self.params
-        return super().concat([:records, :fields, :show, :edit, :delete])
+        return super.merge({records:"Array(String)", fields:"Array(String)", hidden_fields:"Hash(Boolean)", show:"Boolean", edit:"Boolean", delete:"Boolean"})
       end
     end
   end

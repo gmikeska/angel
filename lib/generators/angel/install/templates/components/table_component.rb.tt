@@ -1,5 +1,7 @@
 class TableComponent < Angel::Components::TableComponent
-
+  include ApplicationHelper
+  include Rails.application.routes.named_routes.path_helpers_module
+  include Rails.application.routes.named_routes.url_helpers_module
   #def initialize(**args)
   #def table_header(**args)
   #def paginated?

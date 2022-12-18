@@ -22,21 +22,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_174216) do
 
   create_table "designs", force: :cascade do |t|
     t.string "name"
+    t.string "slug"
     t.string "component_name"
     t.string "options_data"
-    t.integer "page_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["page_id"], name: "index_designs_on_page_id"
-  end
-
-  create_table "groups", force: :cascade do |t|
-    t.string "name"
     t.string "settings_data"
     t.integer "page_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["page_id"], name: "index_groups_on_page_id"
+    t.index ["page_id"], name: "index_designs_on_page_id"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -50,6 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_174216) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
+    t.string "options_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -3,6 +3,7 @@ class ArticlesController < ApplicationController
 
   # GET /articles
   def index
+    @page = current_page
     @articles = Article.all
   end
 

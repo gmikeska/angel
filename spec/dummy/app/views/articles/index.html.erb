@@ -3,4 +3,8 @@
 <h1>Articles</h1>
 <%= link_to "New article", new_article_path %>
 
-<%= render "articles_table", articles:@articles %>
+<% @page.designs.each do |design| %>
+  <% if(design.params.include?(:records)) %>
+    <%= design.loader(css_id:"articles-table") %>
+  <% end %>
+<% end %>

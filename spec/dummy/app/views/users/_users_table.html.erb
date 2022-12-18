@@ -17,7 +17,8 @@
   <% component.with_header do %>
       <%= component.table_header %>
     <% end %>
-
+  <% component.with_body do %>
+    <%= render RecordComponent.new(record:account,fields:fields, optional_fields:optional_fields, show:component.show, edit:component.edit, delete:component.delete) %>
   <% component.with_placeholder do %>
     There are no users yet.
   <% end %>

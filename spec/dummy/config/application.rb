@@ -13,6 +13,7 @@ require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
 require "sass-rails"
+require "bootstrap_form"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -27,6 +28,7 @@ module Dummy
     config.sass.line_comments = false
     config.sass.cache = false
     config.assets.enabled = true
+    config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol]
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

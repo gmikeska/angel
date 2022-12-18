@@ -3,7 +3,58 @@
 <h1>Users</h1>
 <%= link_to "New user", new_user_path %>
 <% @page.designs.each do |design| %>
-  <% if(design.params.include?(:records))  %>
-    <%= design.loader(records:@users, path:users_path+"/table") %>
+  <% if(design.params.include?(:records)) %>
+    <%= design.loader %>
   <% end %>
 <% end %>
+<style media="screen">
+  turbo-frame {
+    transition: 1s;
+  }
+  .loading {
+    transition: visibility 0s, opacity 0.5s linear;
+    visibility:hidden;
+    opacity:0;
+  }
+  .complete {
+    transition: visibility 0s, opacity 0.5s linear;
+    visibility:visible;
+    opacity:100%;
+  }
+</style>
+<script type="text/javascript">
+  // $(document).on('turbo:click', async (e)=>{
+  //   e.preventDefault()
+  //   console.log("click")
+  //   tgt = $("#"+$(e.originalEvent.target).data("turbo-frame"))
+  //   await tgt.addClass("loading").removeClass("complete")
+  //   console.log("classes toggeled")
+  //   e.detail.resume()
+  // })
+  $(document).on('turbo:before-fetch-request',async (e)=>{
+    e.preventDefault()
+    console.log("fetch")
+    tgt = $(e.originalEvent.target)
+    await tgt.addClass("loading").removeClass("complete")
+    console.log("classes toggeled")
+    setTimeout(()=>{
+      if(!!e.detail.resume)
+      {
+        e.detail.resume()
+      }
+    }, 500)
+  })
+  $(document).on('turbo:frame-render',async (e)=>{
+    e.preventDefault()
+    console.log("loaded")
+    tgt = $(e.originalEvent.target)
+    await tgt.addClass("complete").removeClass("loading")
+    console.log("classes toggeled")
+    setTimeout(()=>{
+      if(!!e.detail.resume)
+      {
+        e.detail.resume()
+      }
+    }, 500)
+  })
+</script>

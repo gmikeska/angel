@@ -1,6 +1,6 @@
 class TableComponent < Angel::Components::TableComponent
 
-  #def initialize(**args)
+  # def initialize(**args)
   #def table_header(**args)
   #def paginated?
   #def page_select(**opts, &block)

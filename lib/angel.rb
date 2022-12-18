@@ -1,17 +1,24 @@
 require "angel/version"
+require "angel/safe_query"
 require "angel/railtie"
-require "angel/models"
+# require "angel/models"
+# require "angel/controllers"
+# require "angel/components"
 require "active_support/dependencies/autoload"
 
 module Angel
-  @@base_model = ActiveRecord::Base
   extend ActiveSupport::Autoload
-  autoload :Components
-  autoload :Helpers
+
+  autoload_at "angel/models" do
+    autoload :Base
+    autoload :Design
+    autoload :Page
+  end
+
   autoload :Controllers
-  autoload :Design
-  autoload :Group
-  autoload :Page
+  autoload :Components
+  @@base_model = ActiveRecord::Base
+
 
   def self.set_base_model(model)
     @@base_model = model

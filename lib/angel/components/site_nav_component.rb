@@ -6,11 +6,13 @@ module Angel
       def initialize(**args)
         if(!!args[:items] && args[:items].is_a?(Array))
           args[:items].each do |i|
-            self.with_item do
-              if(!!i[:items])
-                res = self.dropdown_menu(i[:title], i[:items])
+            if(i[:hidden] != true)
+              self.with_item do
+                if(!!i[:items])
+                  res = self.dropdown_menu(i[:title], i[:items])
+                end
+                res = self.item(i[:title],i[:url])
               end
-              res = self.item(i[:title],i[:url])
             end
           end
         end
