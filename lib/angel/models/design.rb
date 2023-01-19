@@ -6,8 +6,9 @@ module Angel
     serialize :defaults_data
     belongs_to :page, optional: true
     attr_accessor :user
+
     before_save do |design|
-      if(!!design.name)
+      if(!!design.name && !design.slug)
         design.slug = design.name.parameterize.underscore
       end
     end
@@ -45,7 +46,7 @@ module Angel
     # @return an instance of the design's component
     def component(**args)
       o = self.options
-      if(!!options[:query])
+      if(!!o[:query])
         o[:records] = self.query
         o.delete(:query)
       end
