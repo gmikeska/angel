@@ -64,9 +64,19 @@ module Angel
       end
 
 
+      def css_id_for_tag(suffix=nil)
+        if(!!suffix)
+          output = "id='#{css_id}-#{suffix}'"
+        else
+          output = "id='#{css_id}'"
+        end
+        return output.html_safe
+      end
+
       def css_class_for_tag
-        if(!!css_class && css_class != "[]" && css_class != [])
-          return "class=#{css_class}"
+        cssclass = css_class
+        if(!!cssclass && cssclass != "[]" && cssclass != [])
+          return %Q(class='#{cssclass}').html_safe
         else
           return ""
         end

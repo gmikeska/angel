@@ -4,7 +4,7 @@ module Angel
       before_action :set_design
 
       def show
-        render(partial:"design")
+        render "show"
       end
 
       def show_component

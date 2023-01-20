@@ -6,6 +6,7 @@ site_nav = Design.new({
   name:"site_nav",
   component_name:"SiteNav",
   options:{
+    css_id:"site_nav",
     items:[
       {
         title:"Home",
@@ -43,17 +44,18 @@ user_index_table = Design.create({
     show:true,
     edit:true,
     delete:true
-  },
-  settings:{
-    hidden_fields:{
-      type:"Group(check_box)",
-      title:"Field Visibility",
-      value:user_index_table_column_defaults
-    }
   }
 })
 
+
 user_index.add_design(user_index_table)
+user_index_table.settings = {
+  hidden_fields:{
+    type:"Group(check_box)",
+    title:"Field Visibility",
+    value: user_index_table_column_defaults
+  }
+} #{hide_name:false,hide_email:false,hide_articles_count:false}
 # binding.pry
 user_index_table.save
 # binding.pry
@@ -127,14 +129,13 @@ articles_index_table.save
 #   delete:true
 # }
 
-# articles_index_table.user_options = {
-#   hidden_fields:{
-#     type:"Group(check_box)",
-#     title:"Field Visibility",
-#     key_list: :fields,
-#
-#   }
-# }
+articles_index_table.settings = {
+  hidden_fields:{
+    type:"Group(check_box)",
+    title:"Field Visibility",
+    value: articles_index_table_column_defaults
+  }
+}
 # user_index_table.header_slot
 articles_index_table.save
 articles_index_table.query = ["Article", "all"]

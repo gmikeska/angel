@@ -1,8 +1,8 @@
 class DesignsController < Angel::Controllers::DesignsController
-
+  layout "application"
   def edit
     set_design
-    render :edit, layout:"application"
+    render :turbo_form
   end
 
   def current_user

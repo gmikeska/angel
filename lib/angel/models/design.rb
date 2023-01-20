@@ -2,7 +2,6 @@ module Angel
   class Design < Base
     include SupportsPointer
     serialize :options_data
-    serialize :settings_data
     serialize :defaults_data
     belongs_to :page, optional: true
     attr_accessor :user
@@ -15,7 +14,6 @@ module Angel
 
     after_initialize do |design|
       design.defaults = design.options
-      design.settings_data = {}
       design.save
     end
 
@@ -51,10 +49,14 @@ module Angel
         o[:records] = self.query
         o.delete(:query)
       end
-      args[:edit_path] = user_edit_url
+      args[:edit_path] = "designs/#{self.id}/component/edit"
       o = o.merge(args)
+      if(!o[:css_id])
+        raise Exception.new "css_id is required to render the #{self.component_name}Component #{self.name}"
+      end
       @component ||= (self.component_name.classify+"Component").constantize.new(**o)
       @component.design = self
+      @component.css_id = o[:css_id]
       return @component
     end
 
@@ -157,13 +159,14 @@ module Angel
     # @param data [Hash] the options data to be stored
     # @return [Hash] the data passed in
     def settings=(data)
-      self.settings_data = data.stringify_keys
+      self.options = self.options.merge(settings:data)
+      self.save
     end
 
     # Returns design's user option defaults
     # @return [Hash] the design's user option defaults
     def settings
-      self.settings_data.symbolize_keys
+      self.options[:settings]
     end
 
     # Returns design's form path
@@ -190,6 +193,7 @@ module Angel
     # If @user is set, stores the given data as
     # the user's settings for this design.
     def user_options=(data)
+
       if(!!user)
         user.set_component_options(config_key, data)
         user.save

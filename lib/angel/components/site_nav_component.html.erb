@@ -1,8 +1,8 @@
-<turbo-frame class="navbar navbar-expand-md navbar-light" id="<%= css_id %>">
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#<%= @css_id+"Content" %>" aria-controls="<%= @css_id+"Content" %>" aria-expanded="false" aria-label="Toggle navigation">
+<turbo-frame <%= css_class_for_tag %> <%= css_id_for_tag %>>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#<%= css_id_for_tag("Content") %>" aria-controls="<%= css_id_for_tag("Content") %>" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <turbo-frame class="navbar-expand mr-auto" id="<%= @css_id+"Content" %>">
+  <turbo-frame class="navbar-expand mr-auto" id="<%= css_id_for_tag("Content") %>">
     <ul class="navbar-nav mt-2 mt-md-0">
       <% items.each do |i| %>
         <%= i %>

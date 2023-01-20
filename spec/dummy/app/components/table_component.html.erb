@@ -1,6 +1,6 @@
-  <turbo-frame id="<%= css_id %>" class='table table-responsive-md loading'>
+  <turbo-frame <%= css_id_for_tag %> class='table table-responsive-md loading'>
   <%= settings_button(icon: :vertical) %>
-  <table class="<%= css_class %>">
+  <table <%= css_class_for_tag %>>
     <% if(header.present?) %>
       <%= header %>
     <% else %>
