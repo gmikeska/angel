@@ -64,6 +64,14 @@ module Angel
       end
 
 
+      def css_class_for_tag
+        if(!!css_class && css_class != "[]" && css_class != [])
+          return "class=#{css_class}"
+        else
+          return ""
+        end
+      end
+
       def css_class
         if(!!self.functional_classes)
           return functional_classes.concat(@css_class).join(" ")

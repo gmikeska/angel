@@ -1,4 +1,4 @@
-  <turbo-frame id="<%= css_id %>" class='<%= css_class %>'>
+  <turbo-frame id="<%= css_id %>" <%= css_class_for_tag %>>
   <%= self.settings_button(icon: :vertical).html_safe %>
   <table class="<%= css_class %>">
   <% if(header.present?) %>

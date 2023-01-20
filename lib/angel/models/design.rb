@@ -15,6 +15,7 @@ module Angel
 
     after_initialize do |design|
       design.defaults = design.options
+      design.settings_data = {}
       design.save
     end
 
