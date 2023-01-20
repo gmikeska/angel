@@ -49,7 +49,7 @@ module Angel
         o[:records] = self.query
         o.delete(:query)
       end
-      args[:edit_path] = "designs/#{self.id}/component/edit"
+      args[:edit_path] = "/designs/#{self.id}/component/edit"
       o = o.merge(args)
       if(!o[:css_id])
         raise Exception.new "css_id is required to render the #{self.component_name}Component #{self.name}"
