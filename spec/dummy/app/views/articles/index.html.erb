@@ -5,6 +5,6 @@
 
 <% @page.designs.each do |design| %>
   <% if(design.params.include?(:records)) %>
-    <%= design.loader(css_id:"articles-table") %>
+    <%= design.loader %>
   <% end %>
 <% end %>

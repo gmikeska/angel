@@ -5,53 +5,24 @@ module Angel
   module Components
     class CustomizableComponent < ViewComponent::Base
 
-      attr_accessor :css_id, :style, :src, :functional_classes, :data_controller,:design
+      attr_accessor :args, :functional_classes, :data_controller,:design
       include TagHelper
       include Angel::ButtonHelper
 
 
       def initialize(**args)
+        @args = args
         if(!!args[:edit_path])
           @edit_path = args[:edit_path]
         end
-        if(!!args[:css_class])
-          if(args[:css_class].is_a? String)
-            @css_class = args[:css_class].split(" ")
-          elsif(args[:css_class].is_a? Array)
-            @css_class = args[:css_class]
+        if(!!@args[:class])
+          if(@args[:class].is_a? String)
+            @args[:class] = @args[:class].split(" ")
           end
         else
-          @css_class = []
+          @args[:class] = []
         end
 
-        if(!!args[:css_id])
-          @css_id = args[:css_id]
-        else
-          @css_id = ""
-        end
-
-        if(!!args[:style])
-          @style = args[:style]
-        else
-          @style = ""
-        end
-
-        if(!!args[:src])
-          @src = args[:src]
-        else
-          @src = ""
-        end
-
-        if(!!args[:tag_name])
-          @tag_name = args[:tag_name]
-        else
-          @tag_name = :"turbo-frame"
-        end
-        if(!!args[:data])
-          @data = args[:data]
-        else
-          @data = {}
-        end
       end
 
       def data_controller=(controller_name)
@@ -63,6 +34,10 @@ module Angel
         "data-#{data_controller}-target=#{tgt_name}".html_safe
       end
 
+
+      def css_id
+        return @args[:id]
+      end
 
       def css_id_for_tag(suffix=nil)
         if(!!suffix)
@@ -84,20 +59,20 @@ module Angel
 
       def css_class
         if(!!self.functional_classes)
-          return functional_classes.concat(@css_class).join(" ")
+          return functional_classes.concat(@args[:class]).join(" ")
         else
-          return @css_class.join(" ")
+          return @args[:class].join(" ")
         end
       end
 
       def add_class(new_class)
-        if(!@css_class.include?(new_class))
-          @css_class << new_class
-        end
+        new_class = new_class.split(" ") if(!new_class.is_a? Array)
+        class_list = @args[:class].split(" ").concat(new_class).uniq
+        @args[:class] = class_list.join(" ")
       end
 
       def set_data(key,value)
-        @data[key] = value
+        @args[:data][key] = value
       end
 
       def set_id(id)
@@ -109,24 +84,24 @@ module Angel
       end
 
       def set_style(style_string)
-        @style = style_string
+        @args[:style] = style_string
       end
 
       def tag_args
-        args = {}
-        args[:class] = css_class || ""
-        args[:id] = css_id || ""
-        args[:style] = style || ""
-        args[:data] = data || {}
+        t_args = {}
+        t_args[:class] = css_class || ""
+        t_args[:id] = css_id || ""
+        t_args[:style] = style || ""
+        t_args[:data] = data || {}
 
-        return args
+        return t_args
       end
 
       def wrap(*args)
         value = nil
         buffer = with_output_buffer { value = yield(*args).html_safe }
         content = buffer.to_s
-        return content_tag(@tag_name.to_sym,"\n#{content.to_s.html_safe}\n".html_safe,**tag_args).html_safe
+        return content_tag(@args[:tag_name].to_sym,"\n#{content.to_s.html_safe}\n".html_safe,**tag_args).html_safe
       end
 
       def create_link_url(link_reference)
@@ -210,6 +185,18 @@ module Angel
 
         rescue => e
           binding.pry
+        end
+      end
+
+      def method_missing(method_name, assignment=nil)
+        method_name = method_name.to_s
+        if(method_name.ends_with?("="))
+          method_name = method_name.match(/(?<name>\w*)=/)[:name]
+          return @args[method_name.to_sym] = assignment
+        else
+          if(!!@args[method_name])
+            return @args[method_name]
+          end
         end
       end
 

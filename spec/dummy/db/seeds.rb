@@ -19,7 +19,7 @@ if(!user_index_table.configured?)
       css_id:"users_table",
       fields:user_index_table_column_defaults.keys.map{|n| n.to_s.match(/hide_(\w*)/)[1]},
       responsive:"md",
-      optional_fields:["client_name", "edit", "delete"],
+      optional_fields:["email","edit", "delete"],
       show:true,
       edit:true,
       delete:true
@@ -34,7 +34,6 @@ if(!user_index_table.configured?)
   }
   user_index_table.save
   user_index_table.query = ["User", "all"]
-  user_index_table.save
   user_index.add_design(user_index_table)
 end
 # binding.pry
@@ -96,24 +95,18 @@ if(!articles_index_table.configured?)
         value: articles_index_table_column_defaults
       }
     }
-  articles_index_table.save
-  articles_index_table.settings = {
-    hidden_fields:{
-      type:"Group(check_box)",
-      title:"Field Visibility",
-      value: articles_index_table_column_defaults
-    }
-  }
-  articles_index_table.save
   articles_index_table.query = ["Article", "all"]
+  #articles_index_table.save
   articles_index_table.save
+  articles_index.add_design(articles_index_table)
+
 end
 
 
 # require "pry"; binding.pry
 5.times do
   user_name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
-  u = User.create(name:user_name, email:"#{user_name}@example.com")
+  u = User.create(name:user_name, email:"#{user_name.parameterize.underscore}@example.com")
   u.save
   a = Article.create(title:Faker::Company.catch_phrase, author:u, body:Faker::Quote.matz)
   a.save

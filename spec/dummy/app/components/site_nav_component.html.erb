@@ -1,12 +1,28 @@
-<turbo-frame <%= css_class_for_tag %> <%= css_id_for_tag %>>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#<%= "#{css_id}-Content" %>" aria-controls=<%= "#{css_id}-Content" %> aria-expanded="false" aria-label="Toggle navigation">
+<nav <%= css_class_for_tag %> <%= css_id_for_tag %>>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#<%= "#{css_id}-menu" %>" aria-controls=<%= "#{css_id}-menu" %> aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <turbo-frame class="navbar-expand mr-auto" <%= css_id_for_tag("Content") %>>
-    <ul class="navbar-nav mt-2 mt-md-0">
-      <% items.each do |i| %>
-        <%= i %>
-      <% end %>
-    </ul>
-  </turbo-frame>
-</turbo-frame>
+
+  <nav class="collapse navbar-collapse mr-auto" <%= css_id_for_tag("menu") %>>
+    <div class="container">
+      <ul class="navbar-nav mt-2 mt-md-0">
+        <% items.each do |i| %>
+          <%= i %>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+</nav>
+
+<style media="screen">
+
+
+  #mainNav ul li {
+      border-right: none !important;
+  }
+  .navbar-collapse {
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-top: 0.5px solid #3a3838;
+    }
+</style>

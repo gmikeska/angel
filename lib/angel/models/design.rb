@@ -56,7 +56,7 @@ module Angel
       end
       @component ||= (self.component_name.classify+"Component").constantize.new(**o)
       @component.design = self
-      @component.css_id = o[:css_id]
+      @component.id = o[:css_id]
       return @component
     end
 
@@ -68,7 +68,7 @@ module Angel
         throw Exception "Trying to build a component that is not configured."
       end
       if(!data[:css_id])
-        data[:css_id] = self.options[:css_id]
+        data[:id] = self.options[:css_id]
       end
 
       if(data[:path])
@@ -105,7 +105,7 @@ module Angel
         puts "component_name needed for #{self.name}"
         puts "-------------------------------------------"
       end
-      if(!!self.options && !!self.options[:css_id])
+      if(!self.options || !self.options[:css_id])
         puts "------------------------------------------------------------------"
         puts "WARNING:options[:css_id] needed to render component for #{self.name}."
         puts "this can be passed in Design init, set after initialization"
@@ -149,21 +149,17 @@ module Angel
     # @return [Hash] the design's options
     def options(selection=nil)
       return {} if(!options_data)
-      o = options_data.symbolize_keys
+      o = options_data.deep_symbolize_keys
       if(!!o[:slots] && selection == :slots)
         return o[:slots]
       elsif(!!o[:slots])
         @slots = o[:slots]
         o.delete(:slots)
       end
-      if(!!o[:records])
-        o[:records].map!{|f| f.to_sym }
-      end
-      if(!!o[:fields])
-        o[:fields].map!{|f| f.to_sym }
-      end
-      if(!!o[:optional_fields])
-        o[:optional_fields].map!{|f| f.to_sym }
+      [:records,:fields,:optional_fields].each do |k|
+        if(!!o[k])
+          o[k].map!{|f| f.to_sym }
+        end
       end
 
       return o
@@ -203,11 +199,11 @@ module Angel
       if(!!user && user.component_options(config_key) == {})
           user.set_component_options(config_key,settings)
           user.save
-          return settings
+          return settings.symbolize_keys
       elsif(!!user)
-          return user.component_options(config_key)
+          return user.component_options(config_key).symbolize_keys
       else
-        return settings
+        return settings.symbolize_keys
       end
     end
 

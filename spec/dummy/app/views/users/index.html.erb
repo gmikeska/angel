@@ -2,11 +2,13 @@
 
 <h1>Users</h1>
 <%= link_to "New user", new_user_path %>
+
 <% @page.designs.each do |design| %>
   <% if(design.params.include?(:records)) %>
     <%= design.loader %>
   <% end %>
 <% end %>
+
 <style media="screen">
   turbo-frame {
     transition: 1s;
@@ -35,6 +37,7 @@
     e.preventDefault()
     console.log("fetch")
     tgt = $(e.originalEvent.target)
+    // debugger
     await tgt.addClass("loading").removeClass("complete")
     console.log("classes toggeled")
     setTimeout(()=>{
@@ -42,7 +45,7 @@
       {
         e.detail.resume()
       }
-    }, 500)
+    }, 0)
   })
   $(document).on('turbo:frame-render',async (e)=>{
     e.preventDefault()
