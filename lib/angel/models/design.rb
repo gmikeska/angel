@@ -52,7 +52,7 @@ module Angel
       args[:edit_path] = "/designs/#{self.id}/component/edit"
       o = o.merge(args)
       if(!o[:css_id])
-        raise Exception.new "css_id is required to render the #{self.component_name}Component #{self.name}"
+        raise Exception.new "options[:css_id] is required to render the #{self.component_name}Component #{self.name}"
       end
       @component ||= (self.component_name.classify+"Component").constantize.new(**o)
       @component.design = self
@@ -64,6 +64,9 @@ module Angel
     # @param data [Hash] the hash of component options to be passed to the component's :new method
     # @return an instance of the component's loader
     def loader(**data)
+      if(!self.configured?)
+        throw Exception "Trying to build a component that is not configured."
+      end
       if(!data[:css_id])
         data[:css_id] = self.options[:css_id]
       end
@@ -94,6 +97,23 @@ module Angel
       self.save
     end
 
+    def configured?
+      result = true
+      if(!self.component_name)
+        result = false
+        puts "-------------------------------------------"
+        puts "component_name needed for #{self.name}"
+        puts "-------------------------------------------"
+      end
+      if(!!self.options && !!self.options[:css_id])
+        puts "------------------------------------------------------------------"
+        puts "WARNING:options[:css_id] needed to render component for #{self.name}."
+        puts "this can be passed in Design init, set after initialization"
+        puts "or can be passed during calls to 'design_#{self.name}.loader'"
+        puts "------------------------------------------------------------------"
+      end
+      return result
+    end
     # Performs the design's query against its target
     # @return the query result
     def query
@@ -128,6 +148,7 @@ module Angel
     # Deserializes design's options
     # @return [Hash] the design's options
     def options(selection=nil)
+      return {} if(!options_data)
       o = options_data.symbolize_keys
       if(!!o[:slots] && selection == :slots)
         return o[:slots]

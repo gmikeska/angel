@@ -1,1 +1,23 @@
-<%= render "designs/design", design:Design.find_by(name:"site_nav") %>
+<% site_nav = Design.find_or_initialize_by(name:"site_nav")
+if(!site_nav.configured?)
+  site_nav.component_name = "SiteNav"
+  site_nav.options = {
+    css_id:"site_nav",
+    items:[
+      {
+        title:"Home",
+        url:"/"
+      },
+      {
+        title:"Users",
+        url:"/users"
+      },
+      {
+        title:"Articles",
+        url:"/articles"
+      }
+    ]
+  }
+site_nav.save
+end %>
+<%= render "designs/design", design:site_nav %>
