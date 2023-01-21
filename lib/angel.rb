@@ -1,5 +1,6 @@
 require "angel/version"
 require "angel/safe_query"
+require "angel/default_icons"
 require "angel/railtie"
 # require "angel/models"
 # require "angel/controllers"
