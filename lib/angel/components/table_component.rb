@@ -15,7 +15,7 @@ module Angel
 
       def initialize(**args)
         @records = args[:records] || []
-        self.functional_classes = ["table", "table-sm"]
+        self.semantic_classes = ["table", "table-sm"]
         if(!args[:css_id] && self.records.length > 0)
           args[:css_id] = self.records.first.class.name.downcase.pluralize+"-table"
         elsif(!args[:css_id] && self.records.length == 0)

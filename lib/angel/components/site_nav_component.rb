@@ -16,13 +16,17 @@ module Angel
             end
           end
         end
-        functional_class_list = %I[navbar navbar-expand-lg navbar-light]
-        if(!args[:css_class])
-          args[:class] = [].concat(functional_class_list.map(&:to_s)).uniq.join(" ")
-        else
-          args[:class] = args[:css_class].concat(functional_class_list.map(&:to_s)).uniq.join(" ")
+        css_classlist = ""
+        if(!!args[:css_class])
+          css_classlist = args[:css_class]
+          args.delete(:css_class)
         end
         super(**args)
+        self.semantic_classes = %I[navbar navbar-expand-lg].map(&:to_s)
+        self.add_class("navbar-light")
+        if(css_classlist != "")
+          add_class(css_classlist)
+        end
       end
 
       def item(title, url)
@@ -66,7 +70,7 @@ module Angel
         return super.merge({items:[], css_id:"mainNavContent",class:["navbar", "navbar-expand-md", "navbar-light"]})
       end
       def self.params
-        return super.concat([:items])
+        return super.merge({items:"Array(String)"})
       end
     end
   end

@@ -5,13 +5,17 @@ module Angel
   module Components
     class CustomizableComponent < ViewComponent::Base
 
-      attr_accessor :args, :functional_classes, :data_controller,:design
+      attr_accessor :args, :semantic_classes, :data_controller,:design
       include TagHelper
       include Angel::ButtonHelper
 
 
       def initialize(**args)
         @args = args
+        if(!!args[:semantic_classes])
+          @semantic_classes = args[:semantic_classes]
+          args.delete(:semantic_classes)
+        end
         if(!!args[:edit_path])
           @edit_path = args[:edit_path]
         end
@@ -58,16 +62,29 @@ module Angel
       end
 
       def css_class
-        if(!!self.functional_classes)
-          return functional_classes.concat(@args[:class]).join(" ")
+        if(!!self.semantic_classes)
+          return semantic_classes.map(&:lstrip).map(&:rstrip).concat(@args[:class].split(" ").flatten.map(&:lstrip).map(&:rstrip)).uniq.join(" ")
         else
-          return @args[:class].join(" ")
+          return @args[:class].join(" ").lstrip.rstrip
         end
       end
 
       def add_class(new_class)
-        new_class = new_class.split(" ") if(!new_class.is_a? Array)
-        class_list = @args[:class].split(" ").concat(new_class).uniq
+        new_class = new_class.split(" ").flatten.map(&:lstrip).map(&:rstrip) if(!new_class.is_a? Array)
+        class_list = @args[:class].split(" ").flatten.map(&:lstrip).map(&:lstrip)
+        themed_classes = new_class.select{|c| ["light","dark"].include?((c.split('-')[1]).lstrip.rstrip ) }
+        opposite_themes = themed_classes.map do |tc|
+          root = tc.split('-')[0].lstrip.rstrip;
+          theme = tc.split('-')[1].lstrip.rstrip
+          opp = (["light","dark"] -[theme]).first
+          "#{root}-#{opp}"
+        end
+        class_list = class_list - opposite_themes if(opposite_themes.intersection(class_list).any?)
+
+        class_list = class_list.concat(new_class).uniq
+        # if(!class_list.include?(new_class))
+        #   class_list << new_class
+        # end
         @args[:class] = class_list.join(" ")
       end
 

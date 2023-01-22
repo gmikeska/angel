@@ -3,6 +3,7 @@ module Angel
     include SupportsPointer
     serialize :options_data
     serialize :defaults_data
+    delegate :params, to: :component
     belongs_to :page, optional: true
     attr_accessor :user
 
