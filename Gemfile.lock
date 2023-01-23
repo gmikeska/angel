@@ -346,7 +346,8 @@ DEPENDENCIES
   rspec-rails!
   rspec-support!
   sqlite3
+  supports_pointer (~> 0.5.2)
   turbo-rails
 
 BUNDLED WITH
-   2.2.33
+   2.4.1

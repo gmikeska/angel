@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :users
+  resources :articles
 
   resources :pages do
     resources :designs
@@ -8,8 +10,6 @@ Rails.application.routes.draw do
   get "/designs/:id/component/edit",to: 'designs#component_settings', as: "design_component_settings"
   resources :designs
   get "/users/table",to: 'users#table', as: "users_table"
-  resources :users
-  resources :articles
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

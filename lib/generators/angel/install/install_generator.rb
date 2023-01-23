@@ -7,7 +7,7 @@ module Angel
     class InstallGenerator < Rails::Generators::Base
       include Rails::Generators::Migration
       source_root File.expand_path("templates", __dir__)
-      class_option :options_model, type: :string, default: 'user'
+      # option :options_model, type: :string, default: 'user'
       def self.next_migration_number(path)
           unless @prev_migration_nr
             @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
@@ -16,6 +16,9 @@ module Angel
           end
           @prev_migration_nr.to_s
       end
+      def create_views_directory
+        copy_file "show.html.erb", "app/views/angel/#{file_name}.html.erb"
+      end
       def generate_migrations
         migration_template "migrations/create_designs.rb", "db/migrate/create_designs.rb"
         migration_template "migrations/create_pages.rb", "db/migrate/create_pages.rb"
@@ -23,6 +26,10 @@ module Angel
       def generate_models
         template "models/design.rb", "app/models/design.rb"
         template "models/page.rb", "app/models/page.rb"
+      end
+      def add_js
+        template "javascript/controllers/component_controller.js", "app/javascript/controllers/component_controller.js"
+
       end
       def add_component_options_methods
         inject_into_file "app/models/#{options_model}.rb", after: "class #{options_model.classify}\n" do %Q(
@@ -63,17 +70,16 @@ end
       def generate_routes
         nested_resources = %Q(
           resources :pages do
-            resources :groups do
-              resources :designs
+            resources :designs do
+              get "component", to:"designs#show_component", as:"page_design_component"
             end
           end
-          resources :groups do
-            resources :designs
+          resources :designs do
+            get "component", to:"designs#show_component", as:"design_component"
           end
           resources :designs)
         route nested_resources
       end
-
     end
   end
 end

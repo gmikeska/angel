@@ -27,3 +27,5 @@ group :development, :test do
 end
 
 gem "factory_bot", "~> 6.2"
+
+gem "supports_pointer", "~> 0.5.2"
