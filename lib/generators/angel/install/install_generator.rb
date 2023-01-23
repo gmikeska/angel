@@ -31,30 +31,6 @@ module Angel
         template "javascript/controllers/component_controller.js", "app/javascript/controllers/component_controller.js"
 
       end
-      def add_component_options_methods
-        inject_into_file "app/models/#{options_model}.rb", after: "class #{options_model.classify}\n" do %Q(
-  def component_options(key)
-    if(!!options_data[key])
-      data = options_data[key]
-      if(data.is_a?(Hash))
-        return data.symbolize_keys
-      else
-        return data
-      end
-    else
-      return {}
-    end
-  end
-)
-end
-
-
-
-        def set_component_options(key, data)
-          options_data[key] = data
-          save()
-        end
-      end
       def generate_controllers
         template "controllers/designs_controller.rb", "app/controllers/designs_controller.rb"
         template "controllers/pages_controller.rb", "app/controllers/pages_controller.rb"
@@ -72,10 +48,12 @@ end
           resources :pages do
             resources :designs do
               get "component", to:"designs#show_component", as:"page_design_component"
+              get "component/edit", to:"designs#component_settings", as:"page_design_component_settings"
             end
           end
           resources :designs do
             get "component", to:"designs#show_component", as:"design_component"
+            get "component/edit",to: 'designs#component_settings', as: "design_component_settings"
           end
           resources :designs)
         route nested_resources

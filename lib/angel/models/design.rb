@@ -197,12 +197,12 @@ module Angel
     # otherwise, returns the design's default options.
     # @return [Hash] the user_options hash
     def user_options
-      if(!!user && user.component_options(config_key) == {})
-          user.set_component_options(config_key,settings)
+      if(!!user && user.design_settings(config_key) == {})
+          user.set_design_settings(config_key,settings)
           user.save
           return settings.symbolize_keys
       elsif(!!user)
-          return user.component_options(config_key).symbolize_keys
+          return user.design_settings(config_key).symbolize_keys
       else
         return settings.symbolize_keys
       end
@@ -213,7 +213,7 @@ module Angel
     def user_options=(data)
 
       if(!!user)
-        user.set_component_options(config_key, data)
+        user.set_design_settings(config_key, data)
         user.save
       end
     end
