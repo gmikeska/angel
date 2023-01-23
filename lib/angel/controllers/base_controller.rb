@@ -5,8 +5,8 @@ module Angel
       #
       # end
 
-      def set_design(**args)
-        args[:id] = params[:id] if(args.keys.length == 0)
+      def set_design
+        args = (params[:id].nil? && params[:name].present?) ? {name:params[:name]} : {id:params[:id]}
         @design = Design.find_by(**args)
       end
 
@@ -15,7 +15,7 @@ module Angel
       end
 
       def set_page
-        if(params[:page_id])
+        if(!!params[:page_id])
           @page = Page.find(params[:page_id])
         else
           @page = Page.where(controller:params[:controller], action:params[:action])

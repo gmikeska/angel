@@ -44,9 +44,7 @@ module Angel
       end
 
       def set_design
-        search_params = (params[:id].nil? && params[:name].present?) ? {name:params[:name]} : {id:params[:id]}
-        super(**search_params)
-
+        super
         if(!!params[:page_id])
           set_page
         end
