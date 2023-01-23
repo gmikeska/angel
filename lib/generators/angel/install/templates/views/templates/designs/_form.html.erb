@@ -1,0 +1,36 @@
+<%= bootstrap_form_with(model: design) do |form| %>
+  <% if design.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(design.errors.count, "error") %> prohibited this design from being saved:</h2>
+
+      <ul>
+        <% design.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%
+  design.user_options.each do |name, data|
+
+  %>
+    <%= field_for(name,design,data,form) %>
+  <%
+
+  end
+
+  %>
+
+  <div class="actions">
+    <%= form.submit "Apply" %>
+  </div>
+<% end %>
+<style media="screen">
+  .input-group .field {
+    width: 100%;
+}
+.form-check {
+    width: 100%;
+}
+</style>
