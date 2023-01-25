@@ -1,0 +1,5 @@
+<div class="field">
+  <% opts = options_for_select(Dir["app/components/*.rb"].map{|p| p.split("/").last
+            .split('.').first}.map{|p| [p.titleize, p.split("_").first.titleize]}) %>
+  <%= form.select :component_name, opts, selected:(design.component_name) %>
+</div>

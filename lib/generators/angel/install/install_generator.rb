@@ -17,7 +17,13 @@ module Angel
           @prev_migration_nr.to_s
       end
       def create_views_directory
-        copy_file "show.html.erb", "app/views/angel/#{file_name}.html.erb"
+        copy_file "views/designs/_component_select.html.erb", "app/views/designs/_component_select.html.erb"
+        copy_file "views/designs/_design.html.erb", "app/views/designs/_design.html.erb"
+        copy_file "views/designs/_form.html.erb", "app/views/designs/_form.html.erb"
+        copy_file "views/designs/_turbo_design.html.erb", "app/views/designs/_turbo_design.html.erb"
+        copy_file "views/designs/_turbo_form.html.erb", "app/views/designs/_turbo_form.html.erb"
+        copy_file "views/designs/edit.html.erb", "app/views/angel/designs/edit.html.erb"
+        copy_file "views/designs/show.html.erb", "app/views/angel/designs/show.html.erb"
       end
       def generate_migrations
         migration_template "migrations/create_designs.rb", "db/migrate/create_designs.rb"
