@@ -12,7 +12,8 @@
   <% end %>
 
   <%
-  design.user_options.each do |name, data|
+  form.hidden_field :scope_name, value:@scope
+  design.settings_scopes[@scope].design_settings(design.config_key).each do |name, data|
 
   %>
     <%= field_for(name,design,data,form) %>

@@ -12,7 +12,9 @@ class DesignsController < Angel::Controllers::DesignsController
     params[:id] = params[:design_id] if(params[:id].nil? && !!params[:design_id])
     args = (params[:id].nil? && params[:name].present?) ? {name:params[:name]} : {id:params[:id]}
     @design = Design.find_by(**args)
-    @design.user = current_user
+    if(!!@design.defaults[:user] && current_user)
+      @design.settings_scope(:user,current_user)
+    end
     if(!!params[:page_id])
       set_page
     end

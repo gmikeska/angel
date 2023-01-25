@@ -1,3 +1,4 @@
+
 class User < ApplicationRecord
   has_many :articles, foreign_key: 'author_id'
   serialize :options_data
@@ -25,6 +26,7 @@ class User < ApplicationRecord
   end
 
   def set_design_settings(design_key, data)
+    puts "#{design_key} sets:#{data.map{|k,v| "#{k}:#{v}"}.join('')}"
     options_data[design_key] = data
     save()
   end

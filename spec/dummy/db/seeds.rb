@@ -25,13 +25,14 @@ if(!user_index_table.configured?)
       delete:true
     }
 
-  user_index_table.settings = {
+  user_index_table.set_scope_defaults(:user,{
     hidden_fields:{
       type:"Group(check_box)",
       title:"Field Visibility",
       value: user_index_table_column_defaults
     }
-  }
+  })
+
   user_index_table.save
   user_index_table.query = ["User", "all"]
   user_index.add_design(user_index_table)
@@ -88,13 +89,13 @@ if(!articles_index_table.configured?)
       edit:true,
       delete:true
     }
-    articles_index_table.settings = {
+    articles_index_table.set_scope_defaults(:user,{
       hidden_fields:{
         type:"Group(check_box)",
         title:"Field Visibility",
         value: articles_index_table_column_defaults
       }
-    }
+    })
   articles_index_table.query = ["Article", "all"]
   #articles_index_table.save
   articles_index_table.save
@@ -104,6 +105,7 @@ end
 
 
 # require "pry"; binding.pry
+u = User.create(name:"Greg Mikeska", email:"test@test.com")
 5.times do
   user_name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
   u = User.create(name:user_name, email:"#{user_name.parameterize.underscore}@example.com")

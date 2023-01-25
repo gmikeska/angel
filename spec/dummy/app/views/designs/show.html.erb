@@ -1,4 +1,19 @@
-<div class="container">
-  <small class="text-muted">preview</small>
-  <%= @design.loader %>
+<h3><%= @design.name.titleize %></h3>
+<div class="row">
+  <div class="col">
+    <div class="row border-bottom">
+      <div class="col">
+        Component Type
+      </div>
+      <div class="col">
+        <%= @design.component_name %>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="container" style="zoom: .75;">
+      <small class="text-muted">Preview</small>
+      <%= @design.loader %>
+    </div>
+  </div>
 </div>

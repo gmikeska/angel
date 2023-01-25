@@ -1,11 +1,12 @@
 module Angel
   class Design < Base
     include SupportsPointer
+    include DesignSettingsMethods
     serialize :options_data
     serialize :defaults_data
     delegate :params, to: :component
     belongs_to :page, optional: true
-    attr_accessor :user
+    attr_accessor :settings_scopes
 
     before_save do |design|
       if(!!design.name && !design.slug)
@@ -14,10 +15,9 @@ module Angel
     end
 
     after_initialize do |design|
-      design.defaults = design.options
+      design.settings_scopes = {global:self}
       design.save
     end
-
 
 
     def self.type_of(target)
@@ -59,6 +59,25 @@ module Angel
       @component.design = self
       @component.id = o[:css_id]
       return @component
+    end
+
+    def settings_scope_names
+      @settings_scopes.keys
+    end
+
+    def settings_scope(scope_name, scope_model)
+      @settings_scopes[scope_name] = scope_model
+      if(@settings_scopes[scope_name].design_settings(config_key) == {})
+        reset_scope_settings(scope_name)
+      end
+    end
+
+    def user
+      @settings_scopes[:user]
+    end
+
+    def user=(scope)
+      @settings_scopes[:user] = scope
     end
 
     # Creates an instance of the component's loader (turbo-frame components only)
@@ -173,18 +192,37 @@ module Angel
       self.options_data = data.stringify_keys
     end
 
-    # Serializes hash into design's user option defaults
-    # @param data [Hash] the options data to be stored
-    # @return [Hash] the data passed in
-    def settings=(data)
-      self.options = self.options.merge(settings:data)
-      self.save
-    end
 
     # Returns design's user option defaults
     # @return [Hash] the design's user option defaults
     def settings
-      self.options[:settings]
+      data = {}
+      self.settings_scope_names.each do |scope_name|
+        scope = self.settings_scopes[scope_name]
+        data = data.merge(scope.design_settings(config_key))
+      end
+      return data
+    end
+
+    def design_settings(design_key=nil)
+      self.options[:settings] || {}
+
+    end
+
+    def set_design_settings(design_key, data)
+      self.options[:settings] = data
+    end
+
+    def reset_scope_settings(scope_name)
+      if(!! @settings_scopes[scope_name])
+        configure_scope(scope_name,self.defaults(scope_name))
+        @settings_scopes[scope_name].reload()
+      end
+    end
+
+    def configure_scope(scope_name, data)
+      self.settings_scopes[scope_name].set_design_settings(config_key, data)
+      @settings_scopes[scope_name].save
     end
 
     # Returns design's form path
@@ -197,14 +235,12 @@ module Angel
     # otherwise, returns the design's default options.
     # @return [Hash] the user_options hash
     def user_options
-      if(!!user && user.design_settings(config_key) == {})
-          user.set_design_settings(config_key,settings)
-          user.save
+      if(!!settings_scopes[:user] && settings_scopes[:user].design_settings(config_key) == {})
+          settings_scopes[:user].set_design_settings(config_key,settings)
+          settings_scopes[:user].save
           return settings.symbolize_keys
-      elsif(!!user)
-          return user.design_settings(config_key).symbolize_keys
-      else
-        return settings.symbolize_keys
+      elsif(!!settings_scopes[:user])
+          return settings.symbolize_keys
       end
     end
 
@@ -212,18 +248,34 @@ module Angel
     # the user's settings for this design.
     def user_options=(data)
 
-      if(!!user)
-        user.set_design_settings(config_key, data)
-        user.save
+      if(!!settings_scopes[:user])
+        settings_scopes[:user].set_design_settings(config_key, data)
+        settings_scopes[:user].save
       end
     end
 
-    def defaults
-      return defaults_data.symbolize_keys
+    def defaults(scope_name=nil)
+      if(!scope_name)
+        return self.options[:defaults].symbolize_keys
+      else
+        self.options[:defaults][scope_name].symbolize_keys
+      end
+    end
+    # set the defaults for all settings_scopes with a single call
+    def set_defaults(data)
+      o = self.options
+      o[:defaults] = data
+      self.options = o
+      self.save
     end
 
-    def defaults=(data)
-      self.defaults_data = data.stringify_keys
+    # set the defaults for a specific settings scope
+    def set_scope_defaults(scope_name,data)
+      o = self.options
+      o[:defaults] = {} if(!o[:defaults])
+      o[:defaults][scope_name] = data
+      self.options = o
+      self.save
     end
 
     # def method_missing(m,**args, &block)

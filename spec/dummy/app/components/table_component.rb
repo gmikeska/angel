@@ -65,7 +65,7 @@ class TableComponent < Angel::Components::TableComponent
       <tr>)
       args[:fields].each do |field|
         if(!!@optional_fields && @optional_fields.include?(field))
-          outstr = outstr + "<th class='d-none d-md-table-cell'>#{field.to_s.titleize}</th>"
+          outstr = outstr + "<th class='d-none d-md-table-cell field-#{field}'>#{field.to_s.titleize}</th>"
         else
           outstr = outstr + "<th>#{field.to_s.titleize}</th>"
         end

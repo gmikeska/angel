@@ -12,11 +12,16 @@ module Angel
       end
 
       def component_settings
-        render(partial:"turbo_form", locals:{design:@design})
+        set_design
+        @scope = (params[:scope] ||= "user").to_sym
+        @scope = @scope
+        render(partial:"turbo_form", locals:{design:@design,scope:@scope})
       end
 
       def update
-        options_data = @design.user_options
+        scope_name = :user
+        scope_name = params[:scope_name] if params[:scope_name]
+        options_data = @design.settings_scopes[scope_name].design_settings(@design.config_key)
         data = {}
         options_data.each do |field_name, user_option|
           if(user_option.is_a?(Hash))
@@ -35,7 +40,7 @@ module Angel
         data.keys.each do |key|
           options_data[key][:value] = data[key]
         end
-        @design.user_options = options_data
+        @design.configure_scope(scope_name,options_data)
         if(@design.save)
           render(partial:"design", locals:{design:@design})
         else
