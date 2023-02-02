@@ -21,9 +21,10 @@ module Angel
 
       def update
         scope_name = params[:design][:scope].to_sym
-        options_data = @design.settings_scopes[scope_name].design_settings(@design.config_key)
+        options_data = @design.settings_scopes[scope_name].defaults
         data = {}
         options_data.each do |field_name, user_option|
+          # binding.pry
           if(user_option.is_a?(Hash))
             data[field_name] = {}
             data[field_name] = params.require(:design).require(:user_options).require(field_name).permit(user_option[:value].symbolize_keys.keys).to_h.symbolize_keys

@@ -206,6 +206,7 @@ module Angel
     end
 
     def configure_scope(scope_name, data)
+      # binding.pry
       self.settings_scopes[scope_name].scope.set_design_settings(config_key, data)
       @settings_scopes[scope_name].scope.save
     end
