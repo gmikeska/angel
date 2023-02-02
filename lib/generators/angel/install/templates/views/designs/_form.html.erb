@@ -12,7 +12,7 @@
   <% end %>
 
   <%
-  design.user_options.each do |name, data|
+  design.settings.each do |name, data|
 
   %>
     <%= field_for(name,design,data,form) %>

@@ -1,7 +1,7 @@
 <turbo-frame id="<%= @design.options[:css_id] %>" class="loading">
   <div class="container" style="padding-top:2%; padding-bottom:2%;">
     <div class="container">
-      <%= render("form", design:@design) %>
+      <%= render("form", design:@design, scope:@scope) %>
     </div>
   </div>
 </turbo-frame>

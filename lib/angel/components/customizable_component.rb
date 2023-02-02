@@ -167,7 +167,7 @@ module Angel
       end
 
       def self.editor_fields(**args)
-        data = self.design.user_options
+        data = self.design.settings
         if(!options["_user_options"])
           options["_user_options"] = data
         end

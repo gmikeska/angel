@@ -229,8 +229,8 @@ module Angel
       end
 
       def fields
-        if(!!design && !!design.user_options && !!design.user_options[:hidden_fields])
-          hidden = design.user_options[:hidden_fields][:value].keys.select{|k| design.user_options[:hidden_fields][:value][k] == true }
+        if(!!design && !!design.settings && !!design.settings[:hidden_fields])
+          hidden = design.settings[:hidden_fields][:value].keys.select{|k| design.settings[:hidden_fields][:value][k] == true }
 
           return @fields - hidden.map{|name| name.match(/hide_(\w*)/)[1].to_sym}
         else

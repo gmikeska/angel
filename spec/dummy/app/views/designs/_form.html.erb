@@ -12,8 +12,7 @@
   <% end %>
 
   <%
-  form.hidden_field :scope_name, value:@scope
-  design.settings_scopes[@scope].design_settings(design.config_key).each do |name, data|
+  design.settings_scopes[@scope.to_sym].design_settings(design.config_key).each do |name, data|
 
   %>
     <%= field_for(name,design,data,form) %>
@@ -23,6 +22,7 @@
 
   %>
 
+  <%= form.hidden_field :scope, value:@scope %>
   <div class="actions">
     <%= form.submit "Apply" %>
   </div>

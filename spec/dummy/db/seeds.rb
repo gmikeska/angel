@@ -2,6 +2,14 @@ require 'faker'
 require 'view_component'
 puts "SEEDING TEST DB"
 
+admin = User.create(name:"Greg Mikeska", email:"test@test.com")
+5.times do
+  user_name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
+  u = User.create(name:user_name, email:"#{user_name.parameterize.underscore}@example.com")
+  u.save
+  a = Article.create(title:Faker::Company.catch_phrase, author:u, body:Faker::Quote.matz)
+  a.save
+end
 
 user_index = Page.create(action:"index",controller:"users")
 user_index.save
@@ -17,7 +25,7 @@ if(!user_index_table.configured?)
     user_index_table.options = {
       records:[],
       css_id:"users_table",
-      fields:user_index_table_column_defaults.keys.map{|n| n.to_s.match(/hide_(\w*)/)[1]},
+      fields:user_index_table_column_defaults.keys.map{|n| n.to_s.match(/hide_(\w*)/)[1].to_sym },
       responsive:"md",
       optional_fields:["email","edit", "delete"],
       show:true,
@@ -32,7 +40,6 @@ if(!user_index_table.configured?)
       value: user_index_table_column_defaults
     }
   })
-
   user_index_table.save
   user_index_table.query = ["User", "all"]
   user_index.add_design(user_index_table)
@@ -75,6 +82,11 @@ articles_index_table_column_defaults = {
   hide_author_name:false,
   hide_author_email:false
 }
+articles_index_table_global_column_defaults = {
+  hide_title:false,
+  hide_author_name:false,
+  hide_author_email:true
+}
 
 articles_index_table = articles_index.designs.find_or_initialize_by(name:"articles_table")
 if(!articles_index_table.configured?)
@@ -96,6 +108,13 @@ if(!articles_index_table.configured?)
         value: articles_index_table_column_defaults
       }
     })
+    articles_index_table.set_scope_defaults(:global,{
+      hidden_fields:{
+        type:"Group(check_box)",
+        title:"Field Visibility",
+        value: articles_index_table_global_column_defaults
+      }
+    })
   articles_index_table.query = ["Article", "all"]
   #articles_index_table.save
   articles_index_table.save
@@ -105,11 +124,3 @@ end
 
 
 # require "pry"; binding.pry
-u = User.create(name:"Greg Mikeska", email:"test@test.com")
-5.times do
-  user_name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
-  u = User.create(name:user_name, email:"#{user_name.parameterize.underscore}@example.com")
-  u.save
-  a = Article.create(title:Faker::Company.catch_phrase, author:u, body:Faker::Quote.matz)
-  a.save
-end

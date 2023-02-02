@@ -1,4 +1,3 @@
-
 class User < ApplicationRecord
   has_many :articles, foreign_key: 'author_id'
   serialize :options_data
@@ -9,6 +8,10 @@ class User < ApplicationRecord
       user.options_data = {}
       user.save
     end
+  end
+
+  def options
+    options_data
   end
 
   def design_settings(design_key=nil)

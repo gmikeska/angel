@@ -15,8 +15,17 @@ module Angel
     end
 
     after_initialize do |design|
-      design.settings_scopes = {global:self}
-      design.save
+      if(!design.options_data)
+        design.options_data = {}
+        design.save
+      end
+      if(!design.settings_scopes)
+        design.settings_scopes =  {}
+        design.save
+      end
+      if(!!design.defaults && !!design.defaults.keys && design.has_settings_scope?(:global))
+        design.settings_scope(:global, design)
+      end
     end
 
 
@@ -66,19 +75,9 @@ module Angel
     end
 
     def settings_scope(scope_name, scope_model)
-      @settings_scopes[scope_name] = scope_model
-      if(@settings_scopes[scope_name].design_settings(config_key) == {})
-        reset_scope_settings(scope_name)
-      end
+      @settings_scopes[scope_name] = Angel::Options.new(design:self, scope:scope_model, scope_name:scope_name)
     end
 
-    def user
-      @settings_scopes[:user]
-    end
-
-    def user=(scope)
-      @settings_scopes[:user] = scope
-    end
 
     # Creates an instance of the component's loader (turbo-frame components only)
     # @param data [Hash] the hash of component options to be passed to the component's :new method
@@ -168,38 +167,23 @@ module Angel
     # Deserializes design's options
     # @return [Hash] the design's options
     def options(selection=nil)
-      return {} if(!options_data)
-      o = options_data.deep_symbolize_keys
-      if(!!o[:slots] && selection == :slots)
-        return o[:slots]
-      elsif(!!o[:slots])
-        @slots = o[:slots]
-        o.delete(:slots)
-      end
-      [:records,:fields,:optional_fields].each do |k|
-        if(!!o[k])
-          o[k].map!{|f| f.to_sym }
-        end
-      end
-
-      return o
+      return self.options_data.symbolize_keys
     end
 
     # Serializes hash into design's options column
     # @param data [Hash] the options data to be stored
     # @return [Hash] the data passed in
     def options=(data)
-      self.options_data = data.stringify_keys
+      self.options_data = data
     end
-
 
     # Returns design's user option defaults
     # @return [Hash] the design's user option defaults
     def settings
       data = {}
-      self.settings_scope_names.each do |scope_name|
-        scope = self.settings_scopes[scope_name]
-        data = data.merge(scope.design_settings(config_key))
+      self.settings_scope_names.reverse.each do |scope_name|
+        scope_data = self.settings_scopes[scope_name].settings
+        data = data.merge(scope_data)
       end
       return data
     end
@@ -211,18 +195,19 @@ module Angel
 
     def set_design_settings(design_key, data)
       self.options[:settings] = data
+      self.save
     end
 
     def reset_scope_settings(scope_name)
       if(!! @settings_scopes[scope_name])
-        configure_scope(scope_name,self.defaults(scope_name))
+        configure_scope(scope_name,self.defaults[scope_name])
         @settings_scopes[scope_name].reload()
       end
     end
 
     def configure_scope(scope_name, data)
-      self.settings_scopes[scope_name].set_design_settings(config_key, data)
-      @settings_scopes[scope_name].save
+      self.settings_scopes[scope_name].scope.set_design_settings(config_key, data)
+      @settings_scopes[scope_name].scope.save
     end
 
     # Returns design's form path
@@ -254,14 +239,14 @@ module Angel
       end
     end
 
-    def defaults(scope_name=nil)
-      if(!scope_name)
-        return self.options[:defaults].symbolize_keys
-      else
-        self.options[:defaults][scope_name].symbolize_keys
-      end
+    def defaults
+      return options.symbolize_keys[:defaults]
     end
     # set the defaults for all settings_scopes with a single call
+    def has_settings_scope?(scope_name)
+      self.defaults.has_key?(scope_name)
+    end
+
     def set_defaults(data)
       o = self.options
       o[:defaults] = data
@@ -276,6 +261,10 @@ module Angel
       o[:defaults][scope_name] = data
       self.options = o
       self.save
+    end
+
+    def scope_defaults(scope_name)
+      self.options[:defaults][scope_name]
     end
 
     # def method_missing(m,**args, &block)

@@ -1,0 +1,93 @@
+=> [32m#<Angel::Options:0x00007f44842d51e8[0m
+ @design[32m=[0m
+  [32m#<Design:0x00007f44842f4e30[0m
+   id: [1;34m1[0m,
+   name: [31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+   slug: [31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+   component_name: [31m[1;31m"[0m[31mTable[1;31m"[0m[31m[0m,
+   options_data:
+    {[31m[1;31m"[0m[31mrecords[1;31m"[0m[31m[0m=>[],
+     [31m[1;31m"[0m[31mcss_id[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+     [31m[1;31m"[0m[31mfields[1;31m"[0m[31m[0m=>[[33m:name[0m, [33m:email[0m, [33m:articles_count[0m],
+     [31m[1;31m"[0m[31mresponsive[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mmd[1;31m"[0m[31m[0m,
+     [31m[1;31m"[0m[31moptional_fields[1;31m"[0m[31m[0m=>[[33m:email[0m, [33m:edit[0m, [33m:delete[0m],
+     [31m[1;31m"[0m[31mshow[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+     [31m[1;31m"[0m[31medit[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+     [31m[1;31m"[0m[31mdelete[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+     [31m[1;31m"[0m[31mdefaults[1;31m"[0m[31m[0m=>
+      {[33m:user[0m=>
+        {[33m:hidden_fields[0m=>
+          {[33m:type[0m=>[31m[1;31m"[0m[31mGroup(check_box)[1;31m"[0m[31m[0m,
+           [33m:title[0m=>[31m[1;31m"[0m[31mField Visibility[1;31m"[0m[31m[0m,
+           [33m:value[0m=>
+            {[33m:hide_name[0m=>[1;36mfalse[0m,
+             [33m:hide_email[0m=>[1;36mfalse[0m,
+             [33m:hide_articles_count[0m=>[1;36mfalse[0m}}}},
+     [31m[1;31m"[0m[31mquery[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31mUser[1;31m"[0m[31m[0m, [31m[1;31m"[0m[31mall[1;31m"[0m[31m[0m]},
+   page_id: [1;34m1[0m,
+   created_at: [1;34;4mFri[0m, [1;34m27[0m [1;34;4mJan[0m [1;34m2023[0m [1;34m14[0m:[1;34m14[0m:[1;35m23.052655000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+   updated_at: [1;34;4mFri[0m, [1;34m27[0m [1;34;4mJan[0m [1;34m2023[0m [1;34m14[0m:[1;34m14[0m:[1;35m23.079237000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+   defaults_data: [1;36mnil[0m[32m>[0m,
+ @settings_scopes[32m=[0m
+  {[33m:global[0m=>
+    [32m#<Angel::Options:0x00007f44842d5198[0m
+     @design[32m=[0m
+      [32m#<Design:0x00007f44842f4e30[0m
+       id: [1;34m1[0m,
+       name: [31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+       slug: [31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+       component_name: [31m[1;31m"[0m[31mTable[1;31m"[0m[31m[0m,
+       options_data:
+        {[31m[1;31m"[0m[31mrecords[1;31m"[0m[31m[0m=>[],
+         [31m[1;31m"[0m[31mcss_id[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mfields[1;31m"[0m[31m[0m=>[[33m:name[0m, [33m:email[0m, [33m:articles_count[0m],
+         [31m[1;31m"[0m[31mresponsive[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mmd[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31moptional_fields[1;31m"[0m[31m[0m=>[[33m:email[0m, [33m:edit[0m, [33m:delete[0m],
+         [31m[1;31m"[0m[31mshow[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+         [31m[1;31m"[0m[31medit[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+         [31m[1;31m"[0m[31mdelete[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+         [31m[1;31m"[0m[31mdefaults[1;31m"[0m[31m[0m=>
+          {[33m:user[0m=>
+            {[33m:hidden_fields[0m=>
+              {[33m:type[0m=>[31m[1;31m"[0m[31mGroup(check_box)[1;31m"[0m[31m[0m,
+               [33m:title[0m=>[31m[1;31m"[0m[31mField Visibility[1;31m"[0m[31m[0m,
+               [33m:value[0m=>
+                {[33m:hide_name[0m=>[1;36mfalse[0m,
+                 [33m:hide_email[0m=>[1;36mfalse[0m,
+                 [33m:hide_articles_count[0m=>[1;36mfalse[0m}}}},
+         [31m[1;31m"[0m[31mquery[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31mUser[1;31m"[0m[31m[0m, [31m[1;31m"[0m[31mall[1;31m"[0m[31m[0m]},
+       page_id: [1;34m1[0m,
+       created_at: [1;34;4mFri[0m, [1;34m27[0m [1;34;4mJan[0m [1;34m2023[0m [1;34m14[0m:[1;34m14[0m:[1;35m23.052655000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+       updated_at: [1;34;4mFri[0m, [1;34m27[0m [1;34;4mJan[0m [1;34m2023[0m [1;34m14[0m:[1;34m14[0m:[1;35m23.079237000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+       defaults_data: [1;36mnil[0m[32m>[0m,
+     @parent[32m=[0m[32m#<Angel::Options:0x00007f44842d51e8[0m ...[32m>[0m,
+     @scope[32m=[0m
+      [32m#<Design:0x00007f44842f4e30[0m
+       id: [1;34m1[0m,
+       name: [31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+       slug: [31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+       component_name: [31m[1;31m"[0m[31mTable[1;31m"[0m[31m[0m,
+       options_data:
+        {[31m[1;31m"[0m[31mrecords[1;31m"[0m[31m[0m=>[],
+         [31m[1;31m"[0m[31mcss_id[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31musers_table[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mfields[1;31m"[0m[31m[0m=>[[33m:name[0m, [33m:email[0m, [33m:articles_count[0m],
+         [31m[1;31m"[0m[31mresponsive[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mmd[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31moptional_fields[1;31m"[0m[31m[0m=>[[33m:email[0m, [33m:edit[0m, [33m:delete[0m],
+         [31m[1;31m"[0m[31mshow[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+         [31m[1;31m"[0m[31medit[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+         [31m[1;31m"[0m[31mdelete[1;31m"[0m[31m[0m=>[1;36mtrue[0m,
+         [31m[1;31m"[0m[31mdefaults[1;31m"[0m[31m[0m=>
+          {[33m:user[0m=>
+            {[33m:hidden_fields[0m=>
+              {[33m:type[0m=>[31m[1;31m"[0m[31mGroup(check_box)[1;31m"[0m[31m[0m,
+               [33m:title[0m=>[31m[1;31m"[0m[31mField Visibility[1;31m"[0m[31m[0m,
+               [33m:value[0m=>
+                {[33m:hide_name[0m=>[1;36mfalse[0m,
+                 [33m:hide_email[0m=>[1;36mfalse[0m,
+                 [33m:hide_articles_count[0m=>[1;36mfalse[0m}}}},
+         [31m[1;31m"[0m[31mquery[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31mUser[1;31m"[0m[31m[0m, [31m[1;31m"[0m[31mall[1;31m"[0m[31m[0m]},
+       page_id: [1;34m1[0m,
+       created_at: [1;34;4mFri[0m, [1;34m27[0m [1;34;4mJan[0m [1;34m2023[0m [1;34m14[0m:[1;34m14[0m:[1;35m23.052655000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+       updated_at: [1;34;4mFri[0m, [1;34m27[0m [1;34;4mJan[0m [1;34m2023[0m [1;34m14[0m:[1;34m14[0m:[1;35m23.079237000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+       defaults_data: [1;36mnil[0m[32m>[0m,
+     @scope_name[32m=[0m[33m:global[0m[32m>[0m}[32m>[0m

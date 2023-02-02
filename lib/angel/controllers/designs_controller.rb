@@ -4,6 +4,7 @@ module Angel
       before_action :set_design
 
       def show
+        @scope = "global"
         render "show"
       end
 
@@ -13,14 +14,13 @@ module Angel
 
       def component_settings
         set_design
-        @scope = (params[:scope] ||= "user").to_sym
-        @scope = @scope
+        @design.settings_scope(:user, current_user)
+        @scope = "user"
         render(partial:"turbo_form", locals:{design:@design,scope:@scope})
       end
 
       def update
-        scope_name = :user
-        scope_name = params[:scope_name] if params[:scope_name]
+        scope_name = params[:design][:scope].to_sym
         options_data = @design.settings_scopes[scope_name].design_settings(@design.config_key)
         data = {}
         options_data.each do |field_name, user_option|
