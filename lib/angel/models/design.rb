@@ -243,11 +243,13 @@ module Angel
     def defaults
       return options.symbolize_keys[:defaults]
     end
-    # set the defaults for all settings_scopes with a single call
+
+    # test if [scope_name] has defaults on this design
     def has_settings_scope?(scope_name)
       self.defaults.has_key?(scope_name)
     end
 
+    # set the defaults for all settings_scopes with a single call
     def set_defaults(data)
       o = self.options
       o[:defaults] = data

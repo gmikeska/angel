@@ -85,7 +85,7 @@ articles_index_table_column_defaults = {
 articles_index_table_global_column_defaults = {
   hide_title:false,
   hide_author_name:false,
-  hide_author_email:true
+  hide_author_email:false
 }
 
 articles_index_table = articles_index.designs.find_or_initialize_by(name:"articles_table")
@@ -94,7 +94,7 @@ if(!articles_index_table.configured?)
     articles_index_table.options = {
       records:[],
       css_id:"articles_table",
-      fields:articles_index_table_column_defaults.keys.map{|n| n.to_s.match(/hide_(\w*)/)[1]},
+      fields:articles_index_table_column_defaults.keys.map{|n| n.to_s.match(/hide_(\w*)/)[1].to_sym},
       responsive:"md",
       optional_fields:["edit", "delete"],
       show:true,
